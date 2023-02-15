@@ -4,8 +4,7 @@ from .models import Review
 
 
 class ReviewList(generic.ListView):
-    model = Review
-    template_name = "index.html"
+    model = Review    
     queryset = Review.objects.filter(status=1).order_by('-created_on')
     template_name = 'index.html'
-    paginate_by = 6         # limit the nr of review
+    paginate_by = 6         # limit the nr of reviews
