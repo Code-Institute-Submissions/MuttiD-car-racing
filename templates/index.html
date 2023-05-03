@@ -14,8 +14,12 @@
                         <div class="card-body">
                             <div class="image-container">
                                 {% if "placeholder" in review.featured_image.url %}      
+                                <!-- <img class="card-img-top"
+                                    src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1676477540/car/smf.1-01_zjmysu.jpg"> -->
                                 <img class="card-img-top"
-                                    src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1676477540/car/smf.1-01_zjmysu.jpg">    
+                                    src="https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg">
+                                <!-- <img class="card-img-top"
+                                    src="/Assets/images/f.1-01.jpg"> -->
                                 {% else %}
                                 <img class="card-img-top" src=" {{ review.featured_image.url }}">
                                 {% endif %}
@@ -23,12 +27,12 @@
                                     <p class="author">Author: {{ review.author }}</p>                 
                                 </div>
                             </div>
-                            <a href="{% url 'review_detail' review.slug %}" class="review-link">
+                            <a href="{% url 'review_details' review.slug %}" class="review-link">
                                 <h2 class="card-title">{{ review.formula_name }}</h2>                      
                                 <p class="card-text">{{ review.excerpt }}</p>                       
                             </a>
                             <hr />
-                            <p class="card-text text-muted h6">{{ review.created_on }} <i class="far fa-heart"></i>             
+                            <p class="card-text text-muted h6">{{ review.created_on }} <i class="fas fa-heart"></i>             
                                 {{ review.number_of_likes }}</p>                                                               
                         </div>
                     </div>
