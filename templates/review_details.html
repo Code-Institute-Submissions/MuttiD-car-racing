@@ -4,18 +4,17 @@
     <div class="container">
         <div class="row g-0">
             <div class="col-md-6 masthead-text">
-                <!-- Post title goes in these h1 tags -->
-                <h1 class="post-title">                                                         <!-- check for post -->
-                </h1>
+                <!-- Review title goes in these h1 tags -->
+                <h1 class="review-title">{{ review.formula_name }}</h1>
                 <!-- Post author goes before the | the post's created date goes after -->
-                <p class="post-subtitle"> | </p>                                                <!-- check for post -->
+                <p class="review-subtitle">{{ review.author }} | {{ review.created_on }}</p>                                                
             </div>
             <div class="d-none d-md-block col-md-6 masthead-image">
                 <!-- The featured image URL goes in the src attribute -->
-                {% if "placeholder" in post.featured_image.url %}                               <!-- check for post -->
-                <img src="/Assets/images/f.1-01.jpg" width="100%">              <!-- change image -->
+                {% if "placeholder" in review.featured_image.url %}                               
+                <img src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1676477540/car/smf.1-01_zjmysu.jpg" width="100%">
                 {% else %}
-                <img src="" width="100%">
+                <img src="{{ review.featured_image.url }}" width="100%">
                 {% endif %}
             </div>
         </div>
@@ -28,18 +27,21 @@
             <div class="card-body">
                 <!-- The review content goes inside the card-text. -->
                 <!-- Use the | safe filter inside the template tags -->
-                <p class="card-text "></p>
+                <p class="card-text ">
+                    {{ review.content | safe }}
+                </p>
                 <div class="row">
 
                     <div class="col-1">
                         <!-- The number of likes goes before the closing strong tag -->
-                        <strong class="text-secondary"><i class="far fa-heart"></i> </strong>
+                        <strong class="text-secondary"><i class="far fa-heart"></i> {{ review.number_of_likes }} </strong>
                     </div>
+                       
+                    
                     <div class="col-1">
-                        {% with comments.count as total_comments %}
-                        <strong class="text-secondary"><i class="far fa-comments"></i>
-                            <!-- Our total_comments variable goes before the closing strong tag -->
-                        </strong>
+                        {% with review.comments.filter(approved=True).count() as total_comments %}
+                        <strong class="text-secondary"><i class="fas fa-comments"></i> {{ total_comments }}</strong>
+                        
                         {% endwith %}
                     </div>
                 </div>
@@ -52,28 +54,28 @@
         </div>
     </div>
     <div class="row">
-        <div class="col card mb-4  mt-3 ">
+        <div class="col-md-8 card mb-4  mt-3 ">
             <h3>Comments:</h3>
             <div class="card-body">
                 <!-- We want a for loop inside the tags to iterate through each comment in comments -->
-                {% %}
+                {% for car_comment in comments %}
                 <div class="comments" style="padding: 10px;">
                     <p class="font-weight-bold">
                         <!-- The commenter's name goes here. Check the model if you're not sure what that is -->
-                        {{ }}
+                        {{ car_comment.name }}
                         <span class=" text-muted font-weight-normal">
                             <!-- The comment's created date goes here -->
-                            {{ }}
+                            {{ car_comment.created_on }}
                         </span> wrote:
                     </p>
                     <!-- The body of the comment goes before the | -->
-                    {{  | linebreaks }}
+                    {{ car_comment.body | linebreaks }}
                 </div>
                 <!-- Our for loop ends here -->
-                {% %}
+                {% endfor %}
             </div>
         </div>
-        <div class="col-md-8 card mb-4  mt-3 ">
+        <div class="col-md-4 card mb-4  mt-3 ">
             <div class="card-body">
                 <!-- For later -->
             </div>

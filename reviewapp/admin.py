@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import CarReview, CarComment
 from django_summernote.admin import SummernoteModelAdmin
 
+
 @admin.register(CarReview)           # adding a decorator
 class ReviewAdmin(SummernoteModelAdmin):
 
@@ -9,7 +10,8 @@ class ReviewAdmin(SummernoteModelAdmin):
     search_fields = ['formula_name', 'content']
     prepopulated_fileds = {'slug': ('formula_name',)}
     list_filter = ('status', 'created_on')
-    summernote_fields = ('content')
+    summernote_fields = ('content',)
+
 
 @admin.register(CarComment)
 class CommentAdmin(admin.ModelAdmin):

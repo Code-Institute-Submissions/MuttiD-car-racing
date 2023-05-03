@@ -11,7 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('blog', '0001_initial'),
+        ('reviewapp', '0001_initial'),
     ]
 
     operations = [
@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('body', models.TextField()),
                 ('created_on', models.DateTimeField(auto_now_add=True)),
                 ('approved', models.BooleanField(default=False)),
-                ('car_comment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='blog.carcomment')),
+                ('car_comment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comments', to='reviewapp.carcomment')),
             ],
             options={
                 'ordering': ['created_on'],
