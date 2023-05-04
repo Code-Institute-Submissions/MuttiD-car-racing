@@ -4,20 +4,20 @@
 
 <div class="container-fluid">
     <div class="row">
-
+        <h1>TESTING</h1>
         <!-- Review Entries Column -->
         <div class="col-12 mt-3 left">
             <div class="row">
-                {% for review in reviews %}
+                <h2>TEST 2</h2>
+                {% for review in carreview_list %}
                 <div class="col-md-4">
+                    <h3>TEST 3</h3>
                     <div class="card mb-4">
                         <div class="card-body">
                             <div class="image-container">
                                 {% if "placeholder" in review.featured_image.url %}      
-                                <!-- <img class="card-img-top"
-                                    src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1676477540/car/smf.1-01_zjmysu.jpg"> -->
                                 <img class="card-img-top"
-                                    src="https://codeinstitute.s3.amazonaws.com/fullstack/blog/default.jpg">
+                                    src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1676477540/car/smf.1-01_zjmysu.jpg">
                                 <!-- <img class="card-img-top"
                                     src="/Assets/images/f.1-01.jpg"> -->
                                 {% else %}
@@ -60,4 +60,4 @@
     </nav>
     {% endif %}
 </div>
-{%endblock%}
+{% endblock %}

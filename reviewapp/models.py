@@ -7,6 +7,9 @@ STATUS = ((0, "Draft"), (1, "Published"))
 
 
 class CarReview(models.Model):
+    """
+    Main review page. by author
+    """
     formula_name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(
@@ -19,11 +22,13 @@ class CarReview(models.Model):
         ]
     )
     review = models.TextField()
-    feature_image = CloudinaryField('image', default='placeholder')
+    featured_image = CloudinaryField('image', default='placeholder')
     excerpt = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-    likes = models.ManyToManyField(User, related_name='review_likes', blank=True)
+    likes = models.ManyToManyField(
+                                   User, related_name='review_likes',
+                                   blank=True)
 
     class Meta:
         ordering = ['-created_on']
@@ -39,6 +44,9 @@ class CarReview(models.Model):
 
 
 class CarComment(models.Model):
+    """
+    Comments from Users
+    """
     #car_comment = models.ForeignKey(
     #    'self', on_delete=models.CASCADE, related_name='comments'
     #    )
@@ -48,7 +56,8 @@ class CarComment(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     approved = models.BooleanField(default=False)
     active = models.BooleanField(default=False)
-    review = models.ForeignKey(CarReview, on_delete=models.CASCADE, related_name='comments')
+    review = models.ForeignKey(CarReview, on_delete=models.CASCADE,
+                               related_name='comments')
 
     class Meta:
         ordering = ['created_on']

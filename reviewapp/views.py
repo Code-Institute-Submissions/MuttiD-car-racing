@@ -6,20 +6,26 @@ from .forms import CommentForm
 
 
 class ReviewList(ListView):
+    """
+    A List of the Cars' Reviews
+    """
     model = CarReview
     queryset = CarReview.objects.filter(status=1).order_by('-created_on')
-    template_name = 'index.html'
-    paginate_by = 6         # limit the nr of reviews
-    context_object_name = 'reviews'
+    template_name = "index.html"
+    paginate_by = 4         # limit the nr of reviews
+    # context_object_name = 'reviews'
 
 
 class ReviewDetail(ListView):
+    """
+    Returns full detail of the review
+    """
 
     def get(self, request, slug, *args, **kwargs):
         queryset = CarReview.objects.filter(status=1)
         review = get_object_or_404(queryset, slug=slug)
-        comments = CarReview.objects.filter(
-            approved=True).order_by('created_on')
+        comments = review.comments.filter(approved=True).order_by(
+                                            'created_on')
         liked = False
         if review.likes.filter(id=self.request.user.id).exists():
             liked = True
@@ -37,6 +43,10 @@ class ReviewDetail(ListView):
         )
 
     def post(self, request, slug, *args, **kwargs):
+        """
+        Returns details with approved reviews
+        Logged in users can submit a comment for approval
+        """
         queryset = CarReview.objects.filter(status=1)
         review = get_object_or_404(queryset, slug=slug)
         comments = CarReview.objects.filter(
@@ -46,7 +56,6 @@ class ReviewDetail(ListView):
             liked = True
 
         comment_form = CommentForm(data=request.POST)
-
         if comment_form.is_valid():
             comment_form.instance.email = request.user.email
             comment_form.instance.name = request.user.username
@@ -70,7 +79,9 @@ class ReviewDetail(ListView):
 
 
 class ReviewLike(ListView):
-
+    """
+    Review likes counted. Total likes displayed
+    """
     def review(self, request, slug):
         review = get_object_or_404(Post, slug=slug)
         if review.likes.filter(id=request.user.id).exists():

@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 
-{% laod crispy_forms_tags %}
+{% load crispy_forms_tags %}
 
 <div class="masthead">
     <div class="container">
@@ -57,7 +57,7 @@
                        
                     
                     <div class="col-1">
-                        {% with review.comments.filter(approved=True).count() as total_comments %}
+                        {% with review.comments.count as total_comments %}
                         <strong class="text-secondary"><i class="fas fa-comments"></i> {{ total_comments }}</strong>
                         
                         {% endwith %}
