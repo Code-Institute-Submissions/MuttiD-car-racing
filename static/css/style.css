@@ -136,3 +136,41 @@ body {
     background: transparent;
     border: none;
 }
+
+/*-------- overlay text on the mercedes image*/
+
+.welcome {
+    background-color: #3e3e3cdb;
+    padding: 10px;
+    font-size: 25px;
+}
+
+.welcome a:hover {
+    background-color:  #23BBBB;
+    color:rgb(14, 13, 13);
+    font-weight: 700;
+}
+
+
+/*-------- footer */
+
+.home{
+    font-family: 'Kalam', cursive;
+}
+
+.home:hover{
+    font-weight: 600;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    margin-top: 40px;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+  }
+
+.ms-3:hover {
+    font-weight: 600;
+}
