@@ -6,9 +6,9 @@ from cloudinary.models import CloudinaryField
 STATUS = ((0, "Draft"), (1, "Published"))
 
 
-class CarReview(models.Model):
+class CarReviewModel(models.Model):
     """
-    Main review page. by author
+    Main car review page by author
     """
     formula_name = models.CharField(max_length=200, unique=True)
     slug = models.SlugField(max_length=200, unique=True)
@@ -21,7 +21,7 @@ class CarReview(models.Model):
             MinValueValidator(1)
         ]
     )
-    review = models.TextField()
+    review_by_admin = models.TextField()
     featured_image = CloudinaryField('image', default='placeholder')
     excerpt = models.TextField(blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -34,33 +34,30 @@ class CarReview(models.Model):
         ordering = ['-created_on']
 
     def __str__(self):
-        return self.review
+        return self.formula_name + ' | ' + str(self.author)
 
     def number_of_likes(self):
         return self.likes.count()
 
     def get_absolute_url(self):
-        return reverse('review_detail', args=[str(self.slug)])
+        return reverse('review_detail')
 
 
-class CarComment(models.Model):
+class CarCommentModel(models.Model):
     """
     Comments from Users
     """
-    #car_comment = models.ForeignKey(
-    #    'self', on_delete=models.CASCADE, related_name='comments'
-    #    )
-    name = models.CharField(max_length=100)
+    comment_user = models.ForeignKey(CarReviewModel, on_delete=models.CASCADE,
+                                     related_name='comments_by_user')
+    username = models.CharField(max_length=100)
     email = models.EmailField()
     body = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    approved = models.BooleanField(default=False)
+    approved_by_admin = models.BooleanField(default=False)
     active = models.BooleanField(default=False)
-    review = models.ForeignKey(CarReview, on_delete=models.CASCADE,
-                               related_name='comments')
 
     class Meta:
         ordering = ['created_on']
 
     def __str__(self):
-        return f"Comment {self.body} by {self.name}"
+        return f"Comment {self.body} by {self.username}"

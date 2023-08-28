@@ -1,9 +1,9 @@
 from django.contrib import admin
-from .models import CarReview, CarComment
+from .models import CarReviewModel, CarCommentModel
 from django_summernote.admin import SummernoteModelAdmin
 
 
-@admin.register(CarReview)           # adding a decorator
+@admin.register(CarReviewModel)           # adding a decorator
 class ReviewAdmin(SummernoteModelAdmin):
 
     list_display = ('formula_name', 'slug', 'status', 'created_on')
@@ -13,10 +13,10 @@ class ReviewAdmin(SummernoteModelAdmin):
     summernote_fields = ('content',)
 
 
-@admin.register(CarComment)
+@admin.register(CarCommentModel)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'body', 'created_on', 'approved')
-    list_filter = ('approved', 'created_on')
+    list_display = ('username', 'body', 'created_on', 'approved_by_admin')
+    list_filter = ('approved_by_admin', 'created_on')
     search_fields = ('name', 'email', 'body')
     actions = ['approve_comments']
 

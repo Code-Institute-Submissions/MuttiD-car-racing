@@ -1,44 +1,46 @@
 from django.shortcuts import render, get_object_or_404, reverse
-from django.views.generic import DetailView, ListView
-from .models import CarReview, CarComment
+from django.views.generic import View, DetailView, ListView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import CarReviewModel, CarCommentModel
 from django.http import HttpResponseRedirect
 from .forms import CommentForm
+from django.urls import reverse
 
 
-class ReviewList(ListView):
+class ReviewDetailList(ListView):
     """
     A List of the Cars' Reviews
     """
-    model = CarReview
-    queryset = CarReview.objects.filter(status=1).order_by('-created_on')
+    model = CarReviewModel
+    queryset = CarReviewModel.objects.filter(status=1).order_by('-created_on')
     template_name = "index.html"
     paginate_by = 4         # limit the nr of reviews
     # context_object_name = 'reviews'
 
 
-class ReviewDetail(ListView):
+class ReviewDetailView(View):
     """
     Returns full detail of the review
     """
 
     def get(self, request, slug, *args, **kwargs):
-        queryset = CarReview.objects.filter(status=1)
+        queryset = CarReviewModel.objects.filter(status=1)
         review = get_object_or_404(queryset, slug=slug)
         comments = review.comments.filter(approved=True).order_by(
                                             'created_on')
         liked = False
         if review.likes.filter(id=self.request.user.id).exists():
             liked = True
-        
+
         return render(
             request,
             "review_details.html",
             {
                 "review": review,
-                # "comments": car_comment,
+                "comments": comments,
                 "commented": False,
                 "liked": liked,
-                "comment_form": CommentForm()
+                "CommentForm": CommentForm,
             },
         )
 
@@ -47,9 +49,9 @@ class ReviewDetail(ListView):
         Returns details with approved reviews
         Logged in users can submit a comment for approval
         """
-        queryset = CarReview.objects.filter(status=1)
+        queryset = CarReviewModel.objects.filter(status=1)
         review = get_object_or_404(queryset, slug=slug)
-        comments = CarReview.objects.filter(
+        comments = review.objects.filter(
             approved=True).order_by('created_on')
         liked = False
         if review.likes.filter(id=self.request.user.id).exists():
@@ -60,33 +62,43 @@ class ReviewDetail(ListView):
             comment_form.instance.email = request.user.email
             comment_form.instance.name = request.user.username
             comment = comment_form.save(commit=False)
-            comment.post = post
+            comment.post = review
             comment.save()
         else:
             comment_form = CommentForm()
-        
+
         return render(
             request,
             "review_details.html",
             {
                 "review": review,
-                # "comments": car_comment,
+                "comments": comments,
                 "commented": True,
                 "liked": liked,
-                "comment_form": CommentForm()
+                "comment_form": comment_form,
             },
         )
 
 
-class ReviewLike(ListView):
+class ReviewCommentView(View):
+    """ 
+    Once the user is logged in, it will allow
+    the user to create a comment
+    """
+    template_name = "review_comments.html"
+    form_class = CommentForm
+
+
+class ReviewLike(View):
     """
     Review likes counted. Total likes displayed
     """
-    def review(self, request, slug):
-        review = get_object_or_404(Post, slug=slug)
+    def post(self, request, slug):
+        review = get_object_or_404(CarReviewModel, slug=slug)
         if review.likes.filter(id=request.user.id).exists():
             review.likes.remove(request.user)
         else:
             review.likes.add(request.user)
 
-        return HttpResponseRedirect(reverse('review_detail', args=[slug]))
+        return HttpResponseRedirect(reverse('review_detail', 
+                                    args=[review.slug]))
