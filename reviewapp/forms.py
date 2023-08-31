@@ -9,5 +9,4 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = CarCommentModel
         fields = (
-            'formula_name'
             'body',)
