@@ -39,13 +39,12 @@ body {
     bottom: 5%;
     min-width: 30%;
     left: -2px;
-    background-color: #23BBBB;
+    background-color: #ce1a1a;
 }
 
 .author {
     color: white;
     margin: 4px;
-    text-transform: uppercase;
 }
 
 .masthead {
@@ -82,22 +81,22 @@ body {
     z-index: 100;
 }
 
-.post-link {                                /* check for post */
+.review-link {                                
     text-decoration: none;
     color: #445261;
 }
 
-.post-link:hover,                           /* check for post */
+.review-link:hover,                           
 .page-link {
     color: #E84610;
 }
 
-.post-title {                               /* check for post */
+.review-title {                               
     margin-top: 20%;
     margin-left: 5%;
 }
 
-.post-subtitle {                            /* check for post */
+.review-subtitle {                            
     margin-left: 5%;
     color: lightgray;
 }
@@ -163,7 +162,7 @@ body {
 }
 
 .footer {
-    position: fixed;
+    position: relative;
     left: 0;
     margin-top: 40px;
     bottom: 0;

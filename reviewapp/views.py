@@ -13,12 +13,12 @@ class ReviewDetailList(ListView):
     """
     model = CarReviewModel
     queryset = CarReviewModel.objects.filter(status=1).order_by('-created_on')
-    template_name = "index.html"
+    template_name = 'index.html'
     paginate_by = 4         # limit the nr of reviews
     # context_object_name = 'reviews'
 
 
-class ReviewDetailView(View):
+class ReviewDetailView(DetailView):
     """
     Returns full detail of the review
     """
@@ -81,7 +81,7 @@ class ReviewDetailView(View):
 
 
 class ReviewCommentView(View):
-    """ 
+    """
     Once the user is logged in, it will allow
     the user to create a comment
     """
@@ -100,5 +100,5 @@ class ReviewLike(View):
         else:
             review.likes.add(request.user)
 
-        return HttpResponseRedirect(reverse('review_detail', 
+        return HttpResponseRedirect(reverse('review_detail',
                                     args=[review.slug]))

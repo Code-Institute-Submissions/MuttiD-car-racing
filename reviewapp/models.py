@@ -14,7 +14,7 @@ class CarReviewModel(models.Model):
     slug = models.SlugField(max_length=200, unique=True)
     author = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="review_author")
-    # updated_on = models.DateTimeField()
+    updated_on = models.DateTimeField(auto_now=True)
     rating = models.IntegerField(
         default=1, validators=[
             MaxValueValidator(5),
