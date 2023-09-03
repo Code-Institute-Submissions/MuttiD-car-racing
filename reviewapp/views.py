@@ -25,18 +25,18 @@ class ReviewDetailView(DetailView):
 
     def get(self, request, slug, *args, **kwargs):
         queryset = CarReviewModel.objects.filter(status=1)
-        review = get_object_or_404(queryset, slug=slug)
-        comments = review.comments.filter(approved=True).order_by(
+        post = get_object_or_404(queryset, slug=slug)
+        comments = post.comment_user.filter(approved=True).order_by(
                                             'created_on')
         liked = False
-        if review.likes.filter(id=self.request.user.id).exists():
+        if post.likes.filter(id=self.request.user.id).exists():
             liked = True
 
         return render(
             request,
             "review_details.html",
             {
-                "review": review,
+                "post": post,
                 "comments": comments,
                 "commented": False,
                 "liked": liked,

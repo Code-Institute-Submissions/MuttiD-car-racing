@@ -4,6 +4,8 @@ from .views import ReviewDetailView
 
 urlpatterns = [
     path('', views.ReviewDetailList.as_view(), name='all_reviews'),
+    path('<slug:slug>/', views.ReviewDetailView.as_view(),
+         name='review_detail'),
     path('review_comments', views.ReviewCommentView.as_view(),
          name='review_comments'),
     path('like/<slug:slug>/', views.ReviewLike.as_view(), name='review_like'),
