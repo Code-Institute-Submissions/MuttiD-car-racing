@@ -13,10 +13,10 @@
             </div>
             <div class="d-none d-md-block col-md-6 masthead-image">
                 <!-- The featured image URL goes in the src attribute -->
-                {% if "placeholder" in review.featured_image.url %}                               
+                {% if "placeholder" in post.featured_image.url %}                               
                 <img src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1693586306/car/image_not_provided_wnobgd.png" width="100%" alt="Image of racing car not-provided">
                 {% else %}
-                <img src="{{ review.featured_image.url }}" width="100%">
+                <img src="{{ review.featured_image.url }}" width="100%" alt="{{ post.formula_name}}">
                 {% endif %}
             </div>
         </div>
@@ -30,34 +30,34 @@
                 <!-- The review content goes inside the card-text. -->
                 <!-- Use the | safe filter inside the template tags -->
                 <p class="card-text ">
-                    {{ review.content | safe }}
+                    {{ post.review_by_admin | safe }}
                 </p>
                 <div class="row">
                     <strong>
-                        {% if user.is_authenticated %}
-                        <form class="d-inline" action="{% url 'review_like' review.slug %}" method="POST">
+                        {% if username.is_authenticated %}
+                        <form class="d-inline" action="{% url 'review_like' post.slug %}" method="POST">
                             {% csrf_token %}
                             {% if liked %}
-                            <button type="submit" name="review_id" value="{{ review.slug }}" class="btn-like"><i class="fas fa-heart"></i></button>
+                            <button type="submit" name="review_id" value="{{ post.slug }}" class="btn-like"><i class="fas fa-heart"></i></button>
                             {% else %}
-                            <button type="submit" name="review_id" value="{{ review.slug }}" class="btn-like"><i class="far fa-heart"></i></button>
+                            <button type="submit" name="review_id" value="{{ post.slug }}" class="btn-like"><i class="far fa-heart"></i></button>
                             {% endif %}
                         </form>
                         {% else %}
                         <span class="text-secondary"><i class="far -fa-heart"></i></span>
 
                         {% endif %}
-                        <span class="text-secondary"> {{ review.number_of_likes }}</span>
+                        <span class="text-secondary"> {{ post.number_of_likes }}</span>
                     </strong>
 
                     <div class="col-1">
                         <!-- The number of likes goes before the closing strong tag -->
-                        <strong class="text-secondary"><i class="far fa-heart"></i> {{ review.number_of_likes }} </strong>
+                        <strong class="text-secondary"><i class="far fa-heart"></i> {{ post.number_of_likes }} </strong>
                     </div>
                        
                     
                     <div class="col-1">
-                        {% with review.comments.count as total_comments %}
+                        {% with post.comments.count as total_comments %}
                         <strong class="text-secondary"><i class="fas fa-comments"></i> {{ total_comments }}</strong>
                         
                         {% endwith %}
@@ -75,19 +75,19 @@
         <div class="col-md-8 card mb-4  mt-3 ">
             <h3>Comments:</h3>
             <div class="card-body">
-                <!-- We want a for loop inside the tags to iterate through each comment in comments -->
-                {% for car_comment in comments %}
+                <!-- We want a for loop inside the tags to iterate through each comment_user in comments -->
+                {% for comment_user in comments %}
                 <div class="comments" style="padding: 10px;">
                     <p class="font-weight-bold">
                         <!-- The commenter's name goes here. Check the model if you're not sure what that is -->
-                        {{ car_comment.name }}
+                        {{ comment_user.username }}
                         <span class=" text-muted font-weight-normal">
                             <!-- The comment's created date goes here -->
-                            {{ car_comment.created_on }}
+                            {{ comment_user.created_on }}
                         </span> wrote:
                     </p>
                     <!-- The body of the comment goes before the | -->
-                    {{ car_comment.body | linebreaks }}
+                    {{ comment_user.body | linebreaks }}
                 </div>
                 <!-- Our for loop ends here -->
                 {% endfor %}
@@ -104,11 +104,11 @@
                 {% if user.is_authenticated %}
 
                 <h3>Leave a comment:</h3>
-                <p>Reviewing as: {{ user.username }}</p>
-                <form method="POST" style="margin-top: 1.3em;">
+                <p>Commented as: {{ user.username }}</p>
+                <form id="commentForm" method="POST" style="margin-top: 1.3em;">
                     {{ comment_form | crispy }}
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-signup btn-lg">Submit</button>
+                    <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
                 </form>
                 {% endif %}
                 {% endif %}

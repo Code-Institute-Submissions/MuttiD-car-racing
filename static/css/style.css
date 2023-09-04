@@ -151,6 +151,19 @@ body {
 }
 
 
+
+/*-------- pagination */
+
+.pagination {
+    margin-bottom: 100px;
+}
+
+.page-link {
+    color:  white;
+    background-color: black;
+}
+
+
 /*-------- footer */
 
 .home{
@@ -173,3 +186,18 @@ body {
 .ms-3:hover {
     font-weight: 600;
 }
+
+
+/*-------- media screens */
+
+@media screen and (max-width: 600px) {
+    welcome {
+      font-size: 18px;
+    }
+  }
+
+  @media screen and (max-width: 412px) {
+    welcome {
+      font-size: 10px;
+    }
+  }
