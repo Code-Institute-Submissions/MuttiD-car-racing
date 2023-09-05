@@ -21,7 +21,7 @@ class ReviewDetailList(ListView):
 def review_detail(request, slug, *args, **kwargs):
     """
     This function-based view will allow users to view
-    the detail of a review.    
+    the detail of a review.
     """
 
     queryset = CarReviewModel.objects.filter(status=1)
