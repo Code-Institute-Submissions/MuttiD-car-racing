@@ -39,6 +39,7 @@ def review_detail(request, slug, *args, **kwargs):
         if comment_form.is_valid():
             comment_form.instance.email = request.user.email
             comment_form.instance.name = request.user.username
+            comment_form.instance.comment_user = post
             new_comment = comment_form.save(commit=False)
             new_comment.post = post
             new_comment.save()
@@ -70,13 +71,13 @@ def update_comment(request, review_id, *args, **kwargs):
 
         queryset = CarReviewModel.objects.filter(status=1)
         post = get_object_or_404(queryset, slug=slug)
-        comment = post.comments.filter(id=comment_id).first()
+        new_comment = post.new_comment.filter(id=comment_id).first()
 
         comment_form = CommentForm(data=request.POST, instance=new_comment)
-        if comment_form.is_valid() and comment.name == request.user.username:
+        if comment_form.is_valid() and new_comment.name == request.user.username:
             update_comment = comment_form.save(commit=False)
             update_comment.post = post
-            update_comment.approved = False
+            update_comment.approved_by_admin = False
             update_comment.save()
             messages.add_message(request, messages.SUCCESS,
                                  'Comment Updated!')
@@ -93,10 +94,10 @@ def comment_delete(request, slug, comment_id, *args, **kwargs):
     """
     queryset = CarCommentModel.objects.filter(status=1)
     post = get_object_or_404(queryset)
-    comment = post.comments.filter(id=comment_id).first()
+    new_comment = post.comments.filter(id=comment_id).first()
 
-    if comment.name == request.user.username:
-        comment.delete()
+    if new_comment.name == request.user.username:
+        new_comment.delete()
         messages.add_message(request, messages.SUCCESS,
                              'Your comment has been deleted!')
     else:
