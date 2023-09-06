@@ -4,8 +4,8 @@ body {
 
 .brand {
     font-family: 'Racing Sans One', cursive;
-    font-size: 1.4rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 250;
     color: #4A4A4F;
 }
 
@@ -57,7 +57,7 @@ body {
 }
 
 .masthead-text {
-    background-color: #445261;
+    background-color: #5855ee;
     color: white;
     position: relative;
 }
@@ -74,7 +74,7 @@ body {
     right: 90%;
     height: 100%;
     width: 150%;
-    background: #445261;
+    background: #5855ee;
     -webkit-transform: skew(15deg);
     -moz-transform: skew(15deg);
     transform: skew(15deg);
@@ -146,7 +146,7 @@ body {
 
 .welcome a:hover {
     background-color:  #23BBBB;
-    color:rgb(14, 13, 13);
+    font-color:white;
     font-weight: 700;
 }
 
@@ -175,6 +175,7 @@ body {
 }
 
 .footer {
+    background-color: #4a4a4a;
     position: relative;
     left: 0;
     margin-top: 40px;

@@ -1,0 +1,49 @@
+{% extends 'base.html' %} 
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div class="masthead">
+    <div class="container">
+        <div class="row g-0">
+            <div class="col-md-6 brand">
+                Share your expertise and ideas 
+                to Car Racing Review Page, also 
+                send us your dream car racing and 
+                we will make a review of it. All 
+                you need to do is filling out the
+                form below!                    
+            </div>
+            <div>
+                <img style="opacity:0.5;" src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1693782109/car/lambo_hano6o.jpg" class="card-img" style="width: 25%; height: 25%" alt="lamborghini racing car">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col card mb-4  mt-3 left  top">
+            <div class="card-body">
+                <p class="card-text ">
+                  Contact Us:  
+                </p>
+                <div class="row">
+                    <strong>              
+                        <form action="/contact/" method="post">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                <div class="fieldWrapper">
+                                    {{ field.errors }}
+                                    {{ field.label_tag }} {{ field }}
+                                </div>
+                            {% endfor %}
+                            <input type="submit" value="Submit">
+                        </form>
+                    </strong>               
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

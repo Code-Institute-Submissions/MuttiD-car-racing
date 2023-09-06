@@ -3,7 +3,7 @@ from django.views.generic import View, DetailView, ListView
 from django.contrib import messages
 from .models import CarReviewModel, CarCommentModel
 from django.http import HttpResponseRedirect
-from .forms import CommentForm
+from .forms import CommentForm, ContactForm
 from django.urls import reverse
 
 
@@ -26,7 +26,7 @@ def review_detail(request, slug, *args, **kwargs):
 
     queryset = CarReviewModel.objects.filter(status=1)
     post = get_object_or_404(queryset, slug=slug)
-    comments = post.comments_by_user.all().order_by("-created_on")
+    comments = post.comments_by_user.filter(approved_by_admin=True).order_by("-created_on")
     comment_count = post.comments_by_user.filter(approved_by_admin=True).count()
     liked = False
     commented = False
@@ -38,7 +38,7 @@ def review_detail(request, slug, *args, **kwargs):
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
             comment_form.instance.email = request.user.email
-            comment_form.instance.name = request.user.username
+            comment_form.instance.username = request.user.username
             comment_form.instance.comment_user = post
             new_comment = comment_form.save(commit=False)
             new_comment.post = post
@@ -65,7 +65,7 @@ def review_detail(request, slug, *args, **kwargs):
 
 def update_comment(request, review_id, *args, **kwargs):
     """
-    This view will allow users to update their comments 
+    This view will allow users to update their comments
     """
     if request.method == "POST":
 
@@ -105,6 +105,25 @@ def comment_delete(request, slug, comment_id, *args, **kwargs):
                              'You can only delete your own comments!')
 
     return HttpResponseRedirect(reverse('review_detail', args=[slug]))
+
+
+def contact(request, *args, **kwargs):
+    """
+    A view to the contact us page
+    """
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            # Process the form data
+            pass
+            return redirect('success')
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', {'form': form})
+
+
+def success(request):
+    return HttpResponse('Success!')
 
 
 def review_like(request, slug, *args, **kwargs):

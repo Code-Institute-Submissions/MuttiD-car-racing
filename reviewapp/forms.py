@@ -10,3 +10,12 @@ class CommentForm(forms.ModelForm):
         model = CarCommentModel
         fields = (
             'body',)
+
+
+class ContactForm(forms.Form):
+    """
+    Add a form to contact us page
+    """
+    name = forms.CharField(required=True)
+    email = forms.EmailField(required=True)
+    message = forms.CharField(widget=forms.Textarea)

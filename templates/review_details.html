@@ -9,7 +9,7 @@
                 <!-- Review title goes in these h1 tags -->
                 <h1 class="review-title">{{ post.formula_name }}</h1>
                 <!-- review author goes before the | the review's created date goes after -->
-                <p class="review-subtitle">{{ post.author }} | {{ post.created_on }}</p>                                                
+                <p class="review-subtitle">{{ post.author }} | {{ post.created_on }}</p>                                          
             </div>
             <div class="d-none d-md-block col-md-6 masthead-image">
                 <!-- The featured image URL goes in the src attribute -->
@@ -89,12 +89,13 @@
                     <!-- The body of the comment goes before the | -->
                     {{ comment_user.body | linebreaks }}
                 </div>
-                {% if not comment.approved and comment.name == user.username %}
-                    <p class="approval">This comment is awaiting approval</p>{% endif %}
-                    {% if user.is_authenticated and comment.name == user.username %}
-                    <button class="btn btn-delete" comment_id="{{ comment.id }}">Delete</button>
-                    <button class="btn btn-edit" comment_id="{{ comment.id }}">Edit</button>
-                    {% endif %}
+                {% if not comment_user.approved_by_admin and comment_user.username == request.user.username %}
+                    <p class="approval">This comment is awaiting approval</p>
+                {% endif %}
+                {% if user.is_authenticated and comment_user.username == request.user.username %}
+                <button class="btn btn-delete" comment_id="{{ comment_user.id }}">Delete</button>
+                <button class="btn btn-edit" comment_id="{{ comment_user.id }}">Edit</button>
+                {% endif %}
                 <!-- For loop ends here -->
                 {% endfor %}
             </div>

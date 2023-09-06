@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="card img-fluid">
+<div class="card img-fluid brand">
     <style>
         img-op {
             opacity: 0.5;
@@ -26,12 +26,12 @@
 </div>
 
     <!-- Review Entries Here -->
-<div class="container-fluid reviewapp">
+<div class="container-fluid reviewapp brand">
     <div class="row">
         <div class="col-1"></div>
         <div class="col-10 mt-2">
             <div class="row">
-                <h2>Car Racing Review List</h2>
+                <h2>Racing Car List</h2>
                 {% for review in carreviewmodel_list %}
                 <div class="col-md-5">
                     <h3></h3>
@@ -53,9 +53,9 @@
                                 <h2 class="card-title">{{ review.formula_name }}</h2>                      
                                 <p class="card-text">{{ review.excerpt }}</p>                       
                             </a>
-                            <hr />
+                            <!-- <hr />
                             <p class="card-text text-muted h6">{{ review.created_on }} <i class="fas fa-heart"></i>             
-                                {{ review.number_of_likes }}</p>                                                               
+                                {{ review.number_of_likes }}</p>  -->                                                             
                         </div>
                     </div>
                 </div>
