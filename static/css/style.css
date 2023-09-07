@@ -4,7 +4,7 @@ body {
 
 .brand {
     font-family: 'Racing Sans One', cursive;
-    font-size: 1.2rem;
+    font-size: 1.5rem;
     font-weight: 250;
     color: #4A4A4F;
 }
@@ -34,6 +34,15 @@ body {
     position: relative;
 }
 
+.container {
+    position: relative;
+}
+
+.container video {
+    position: relative;
+    z-index: 0;
+}
+
 .image-flash {
     position: absolute;
     bottom: 5%;
@@ -57,28 +66,9 @@ body {
 }
 
 .masthead-text {
-    background-color: #5855ee;
+    background-color: #4A4A4F;
     color: white;
     position: relative;
-}
-
-.masthead-image {
-    position: relative;
-    overflow: hidden;
-}
-
-.masthead-image:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    right: 90%;
-    height: 100%;
-    width: 150%;
-    background: #5855ee;
-    -webkit-transform: skew(15deg);
-    -moz-transform: skew(15deg);
-    transform: skew(15deg);
-    z-index: 100;
 }
 
 .review-link {                                
@@ -136,21 +126,32 @@ body {
     border: none;
 }
 
+/*-------- video */
+
+video {
+    width: 100%;
+    height: auto;
+}
+  
+
+
 /*-------- overlay text on the mercedes image*/
 
-.welcome {
+.welcome ul {
     background-color: #3e3e3cdb;
+    position: absolute;
+    top: 2%;
+    left: 5%;
+    z-index: 1;
+    list-style-type: none;
+    margin: 10px;
     padding: 10px;
-    font-size: 25px;
+    font-size: 35px;
 }
 
-.welcome a:hover {
-    background-color:  #23BBBB;
-    font-color:white;
-    font-weight: 700;
+.welcome li {
+    padding: 8px;
 }
-
-
 
 /*-------- pagination */
 

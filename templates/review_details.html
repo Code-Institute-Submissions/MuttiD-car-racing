@@ -11,14 +11,6 @@
                 <!-- review author goes before the | the review's created date goes after -->
                 <p class="review-subtitle">{{ post.author }} | {{ post.created_on }}</p>                                          
             </div>
-            <div class="d-none d-md-block col-md-6 masthead-image">
-                <!-- The featured image URL goes in the src attribute -->
-                {% if "placeholder" in post.featured_image.url %}                               
-                <img src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1693586306/car/image_not_provided_wnobgd.png" width="100%" alt="Image of racing car not-provided">
-                {% else %}
-                <img src="{{ review.featured_image.url }}" width="100%" alt="{{ post.formula_name}}">
-                {% endif %}
-            </div>
         </div>
     </div>
 </div>

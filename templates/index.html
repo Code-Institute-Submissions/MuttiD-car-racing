@@ -2,60 +2,52 @@
 
 {% block content %}
 
-<div class="card img-fluid brand">
-    <style>
-        img-op {
-            opacity: 0.5;
-        }
-    </style>
-    <img style="opacity:0.5;" src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1693782109/car/lambo_hano6o.jpg" class="card-img" style="width: 100%; height: 90%" alt="lamborghini racing car">
-        <div class="card-img-overlay">
-            <div class="text-center welcome">
-                <p>
-                    <h5>
-                        Welcome to Racing Car Reviews Website, your ultimate destination for all 
-                        things Racing Cars! Our website provides in-depth and insightful 
-                        reviews of the world's most exciting motorsport cars, including 
-                        Formula One, Indy Car, Formula E and more. Whether you're a seasoned 
-                        fan or new to the sport, we've got you covered.
-                   </h5>
-                </p>
+<div class="container ">
+    <div class="row">
+        <video width="1280" height="720" class="video" autoplay loop muted>
+            <source src="https://res.cloudinary.com/dyvwocsbh/video/upload/v1694030386/car/racing_car_on_track_qowoih.mp4" type="video/mp4">
+        </video>        
+        <div class=" col-4 card-img-overlay">
+            <div class="welcome text-light">
+                <ul>
+                    <li>What</li>
+                    <li>is</li>
+                    <li>your</li>
+                    <li>passion ?</li>
+                </ul>                
             </div>
-        </div>
-
+        </div>        
+    </div>
 </div>
 
     <!-- Review Entries Here -->
-<div class="container-fluid reviewapp brand">
+<div class="container reviewapp ">
     <div class="row">
-        <div class="col-1"></div>
+        
         <div class="col-10 mt-2">
             <div class="row">
                 <h2>Racing Car List</h2>
                 {% for review in carreviewmodel_list %}
-                <div class="col-md-5">
-                    <h3></h3>
+                <div class="col-md-5">                    
                     <div class="card mb-4">
                         <div class="card-body">
-                            <div class="image-container">
+                            <div class="image-container ">
                                 {% if "placeholder" in review.featured_image.url %}      
                                 <img class="card-img-top"
                                     src="https://res.cloudinary.com/dyvwocsbh/image/upload/v1693586306/car/image_not_provided_wnobgd.png" alt="Image of racing car not-provided">
                                 
                                 {% else %}
                                 <img class="card-img-top" src=" {{ review.featured_image.url }}">
+
                                 {% endif %}
                                 <div class="image-flash">
                                     <p class="author">Reviewed by: <strong>{{ review.author }} </strong></p>                 
                                 </div>
                             </div>
                             <a href="{% url 'review_detail' review.slug %}" class="review-link">
-                                <h2 class="card-title">{{ review.formula_name }}</h2>                      
+                                <h1 class="card-title brand">{{ review.formula_name }}</h1>                      
                                 <p class="card-text">{{ review.excerpt }}</p>                       
-                            </a>
-                            <!-- <hr />
-                            <p class="card-text text-muted h6">{{ review.created_on }} <i class="fas fa-heart"></i>             
-                                {{ review.number_of_likes }}</p>  -->                                                             
+                            </a>                                                            
                         </div>
                     </div>
                 </div>
@@ -64,10 +56,9 @@
             <div class="row">
                 {% endif %}
                 {% endfor %}
-
             </div>
         </div>
-        <div class="col-1"></div>
+        
     </div>
 
 
