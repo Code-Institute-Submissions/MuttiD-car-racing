@@ -40,7 +40,7 @@ class CarReviewModel(models.Model):
         return self.likes.count()
 
     def get_absolute_url(self):
-        return reverse('review_detail')
+        return reverse('review_detail', kwargs={'slug': self.slug})
 
 
 class CarCommentModel(models.Model):
@@ -55,9 +55,25 @@ class CarCommentModel(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     approved_by_admin = models.BooleanField(default=False)
     active = models.BooleanField(default=False)
+    review = models.ForeignKey(CarReviewModel, on_delete=models.CASCADE,
+                               related_name='related_comments', default=1)
 
     class Meta:
         ordering = ['created_on']
 
     def __str__(self):
         return f"Comment {self.body} by {self.username}"
+
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    subject = models.CharField(max_length=200)
+    message = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_on']
+
+    def __str__(self):
+        return f"Contact from {self.name} ({self.email})"

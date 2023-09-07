@@ -31,15 +31,11 @@
                 </p>
                 <div class="row">
                     <strong>              
-                        <form action="/contact/" method="post">
-                            {% csrf_token %}
-                            {% for field in form %}
-                                <div class="fieldWrapper">
-                                    {{ field.errors }}
-                                    {{ field.label_tag }} {{ field }}
-                                </div>
-                            {% endfor %}
+                        <form action="{% url 'contact' %}" method="post">                            
+                            {% csrf_token %}                            
+                            {{ form|crispy }}  <!-- Render form fields with crispy_forms_tags -->
                             <input type="submit" value="Submit">
+                            
                         </form>
                     </strong>               
                 </div>

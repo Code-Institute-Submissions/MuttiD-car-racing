@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %} 
+
+{% if user.is_authenticated %}
+	<div class="container">
+		<h2>Delete Comment:</h2>
+		<div class="row">
+			<form method="POST">
+				{% csrf_token %} 
+				{{ form|crispy }}
+				<p>Are you sure you want to delete this comment?</p>
+				<input type="submit" value="YES" class="btn btn-danger">
+				<a href="{% url 'review_detail' comment.review.slug %}" class="btn btn-signup">Cancel</a>
+			</form>
+		</div>
+	</div>
+{% else %}	
+  <h2>Please login.</h2>
+{% endif %}
+
+{% endblock %}

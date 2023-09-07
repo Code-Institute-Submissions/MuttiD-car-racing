@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+{% if user.is_authenticated %}
+  <div class="container">
+    <h2>Update your comment:</h2>
+    <div class="row">
+      <div class="col-md-8 mt-3 offset-md-2">
+        <form method=POST> 
+          {% csrf_token %} 
+          {{ comment_form|crispy }}
+          <button type="submit" class="btn btn-primary">Update</button>
+          <a href="{% url 'review_detail' comment.review.slug %}" class="btn btn-signup">Cancel</a>            
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% else %}   
+  <h2>This is not your comment. Please, update the comments you have posted.</h2>
+
+{% endif %}
+
+{% endblock %}

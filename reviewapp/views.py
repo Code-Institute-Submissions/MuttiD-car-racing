@@ -1,9 +1,9 @@
-from django.shortcuts import render, get_object_or_404, reverse
-from django.views.generic import View, DetailView, ListView
+from django.shortcuts import render, get_object_or_404, redirect, reverse
+from django.views.generic import View, DetailView, ListView, FormView
 from django.contrib import messages
-from .models import CarReviewModel, CarCommentModel
+from reviewapp.models import CarReviewModel, CarCommentModel, Contact
 from django.http import HttpResponseRedirect
-from .forms import CommentForm, ContactForm
+from reviewapp.forms import CommentForm, ContactForm
 from django.urls import reverse
 
 
@@ -15,7 +15,6 @@ class ReviewDetailList(ListView):
     queryset = CarReviewModel.objects.filter(status=1).order_by('-created_on')
     template_name = 'index.html'
     paginate_by = 4         # limit the nr of reviews
-    # context_object_name = 'reviews'
 
 
 def review_detail(request, slug, *args, **kwargs):
@@ -63,67 +62,67 @@ def review_detail(request, slug, *args, **kwargs):
     )
 
 
-def update_comment(request, review_id, *args, **kwargs):
+def update_comment(request, comment_id):
     """
     This view will allow users to update their comments
     """
-    if request.method == "POST":
 
-        queryset = CarReviewModel.objects.filter(status=1)
-        post = get_object_or_404(queryset, slug=slug)
-        new_comment = post.new_comment.filter(id=comment_id).first()
+    update_c = CarCommentModel.objects.get(pk=comment_id)
+    update_form = CommentForm(request.POST or None, instance=update_c)
 
-        comment_form = CommentForm(data=request.POST, instance=new_comment)
-        if comment_form.is_valid() and new_comment.name == request.user.username:
-            update_comment = comment_form.save(commit=False)
-            update_comment.post = post
-            update_comment.approved_by_admin = False
-            update_comment.save()
-            messages.add_message(request, messages.SUCCESS,
-                                 'Comment Updated!')
-        else:
-            messages.add_message(request, messages.ERROR,
-                                 'Error updating comment!')
+    if update_c.comment_user.author != request.user:
+        return redirect("all_reviews")
 
-    return HttpResponseRedirect(reverse('review_detail', args=[slug]))
+    if update_form.is_valid():  # Fixed the form variable name
+        update_form.save()
+        return redirect("all_reviews")
+    return render(request, "update_comment.html", {'update_form': update_form})
 
 
-def comment_delete(request, slug, comment_id, *args, **kwargs):
+def delete_comment(request, comment_id):
     """
-    A view to delete user's comment
+    A view to delete a user's comment
     """
-    queryset = CarCommentModel.objects.filter(status=1)
-    post = get_object_or_404(queryset)
-    new_comment = post.comments.filter(id=comment_id).first()
+    delete_c = CarCommentModel.objects.get(pk=comment_id)
+    context = {'delete_c': delete_c}
 
-    if new_comment.name == request.user.username:
-        new_comment.delete()
-        messages.add_message(request, messages.SUCCESS,
-                             'Your comment has been deleted!')
-    else:
-        messages.add_message(request, messages.ERROR,
-                             'You can only delete your own comments!')
-
-    return HttpResponseRedirect(reverse('review_detail', args=[slug]))
-
-
-def contact(request, *args, **kwargs):
-    """
-    A view to the contact us page
-    """
     if request.method == 'POST':
+        if delete_c.comment_user.author != request.user:  # Fixed the condition
+            return redirect("all_reviews")
+
+        delete_c.delete()
+        messages.success(request,
+                         ("You have deleted this comment"))
+        return redirect("all_reviews")
+
+    return render(request, "delete_comment.html", context)
+
+
+class ContactView(FormView):
+    template_name = 'contact.html'
+    form_class = ContactForm
+    success_url = '/success'
+
+    def form_valid(self, form):
+        form.save()    
+        messages.success(self.request, 'Thank you for your message. We will get back to you soon!')    
+        return super().form_valid(form)
+
+    def get(self, request):
+        form = ContactForm()
+        return render(request, 'contact.html', {'form': form})
+
+    def post(self, request):
         form = ContactForm(request.POST)
         if form.is_valid():
-            # Process the form data
-            pass
+            form.save()
+            messages.success(request, 'Thank you for your message. We will get back to you soon!')
             return redirect('success')
-    else:
-        form = ContactForm()
-    return render(request, 'contact.html', {'form': form})
+        return render(request, 'contact.html', {'form': form})
 
 
 def success(request):
-    return HttpResponse('Success!')
+    return render(request, 'success.html')
 
 
 def review_like(request, slug, *args, **kwargs):

@@ -36,17 +36,11 @@
                             {% endif %}
                         </form>
                         {% else %}
-                        <span class="text-secondary"><i class="far -fa-heart"></i></span>
+                        <span class="text-secondary"><i class="far fa-heart"></i></span>
 
                         {% endif %}
-                        <span class="text-secondary"> {{ post.number_of_likes }}</span>
+                    <span class="text-secondary"> {{ post.number_of_likes }}</span>
                     </strong>
-
-                    <div class="col-1">
-                        <!-- The number of likes goes before the closing strong tag -->
-                        <strong class="text-secondary"><i class="far fa-heart"></i> {{ post.number_of_likes }} </strong>
-                    </div>
-                       
                     
                     <div class="col-1">
                         {% with post.comments.count as total_comments %}
@@ -68,27 +62,28 @@
             <h3>Comments:</h3>
             <div class="card-body">
                 <!-- We want a for loop inside the tags to iterate through each comment_user in comments -->
-                {% for comment_user in comments %}
+                {% for comment in post.comments.all %}
                 <div class="comments" style="padding: 10px;">
                     <p class="font-weight-bold">
                         <!-- The commenter's name goes here. Check the model if you're not sure what that is -->
-                        {{ comment_user.username }}
+                        {{ comment.username }}
                         <span class=" text-muted font-weight-normal">
                             <!-- The comment's created date goes here -->
-                            {{ comment_user.created_on }}
+                            {{ comment.created_on }}
                         </span> wrote:
                     </p>
                     <!-- The body of the comment goes before the | -->
-                    {{ comment_user.body | linebreaks }}
-                </div>
-                {% if not comment_user.approved_by_admin and comment_user.username == request.user.username %}
+                    {{ comment.body | linebreaks }}
+                    <!-- Check if comment is awaiting approval -->                
+                    {% if not comment.approved_by_admin and comment.comment_user.username == request.user.username %}
                     <p class="approval">This comment is awaiting approval</p>
-                {% endif %}
-                {% if user.is_authenticated and comment_user.username == request.user.username %}
-                <button class="btn btn-delete" comment_id="{{ comment_user.id }}">Delete</button>
-                <button class="btn btn-edit" comment_id="{{ comment_user.id }}">Edit</button>
-                {% endif %}
-                <!-- For loop ends here -->
+                    {% endif %}
+                    <!-- Check if user is authenticated and comment user is the current user -->
+                    {% if user.is_authenticated and comment.comment_user.username == request.user.username %}
+                    <a href="{% url 'delete_comment' comment.id %}" class="btn btn-delete">Delete</a>
+                    <a href="{% url 'update_comment' comment.id %}" class="btn btn-edit">Update</a>
+                    {% endif %}
+                </div>
                 {% endfor %}
             </div>
         </div>
