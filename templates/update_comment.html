@@ -3,15 +3,18 @@
 {% block content %}
 
 {% if user.is_authenticated %}
+
+  <!-- Update comment -->
   <div class="container">
     <h2>Update your comment:</h2>
     <div class="row">
       <div class="col-md-8 mt-3 offset-md-2">
         <form method=POST> 
           {% csrf_token %} 
-          {{ comment_form|crispy }}
-          <button type="submit" class="btn btn-primary">Update</button>
-          <a href="{% url 'review_detail' comment.review.slug %}" class="btn btn-signup">Cancel</a>            
+          {{ form.as_p }}          
+          
+          <input type="submit" value="Update" class="btn btn-signup">
+          <a href="{% url 'review_detail' update_c.review.slug %}" class="btn btn-signup">Cancel</a>            
         </form>
       </div>
     </div>

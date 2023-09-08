@@ -3,6 +3,8 @@
 {% block content %} 
 
 {% if user.is_authenticated %}
+
+<!-- Delete comment -->
 	<div class="container">
 		<h2>Delete Comment:</h2>
 		<div class="row">
@@ -11,7 +13,7 @@
 				{{ form|crispy }}
 				<p>Are you sure you want to delete this comment?</p>
 				<input type="submit" value="YES" class="btn btn-danger">
-				<a href="{% url 'review_detail' comment.review.slug %}" class="btn btn-signup">Cancel</a>
+				<a href="{% url 'review_detail' delete_c.review.slug %}" class="btn btn-signup">Cancel</a>
 			</form>
 		</div>
 	</div>

@@ -19,8 +19,8 @@
     <div class="row">
         <div class="col card mb-4  mt-3 left  top">
             <div class="card-body">
-                <!-- The review content goes inside the card-text. -->
-                <!-- Use the | safe filter inside the template tags -->
+
+                <!-- The review content goes inside the card-text. -->                
                 <p class="card-text ">
                     {{ post.review_by_admin | safe }}
                 </p>
@@ -61,25 +61,31 @@
         <div class="col-md-8 card mb-4  mt-3 ">
             <h3>Comments:</h3>
             <div class="card-body">
+
                 <!-- We want a for loop inside the tags to iterate through each comment_user in comments -->
-                {% for comment in post.comments.all %}
+                {% for comment in comments %}
                 <div class="comments" style="padding: 10px;">
                     <p class="font-weight-bold">
-                        <!-- The commenter's name goes here. Check the model if you're not sure what that is -->
+
+                        <!-- The commenter's name goes here.  -->
                         {{ comment.username }}
                         <span class=" text-muted font-weight-normal">
+
                             <!-- The comment's created date goes here -->
                             {{ comment.created_on }}
                         </span> wrote:
                     </p>
+
                     <!-- The body of the comment goes before the | -->
                     {{ comment.body | linebreaks }}
+
                     <!-- Check if comment is awaiting approval -->                
                     {% if not comment.approved_by_admin and comment.comment_user.username == request.user.username %}
                     <p class="approval">This comment is awaiting approval</p>
                     {% endif %}
+
                     <!-- Check if user is authenticated and comment user is the current user -->
-                    {% if user.is_authenticated and comment.comment_user.username == request.user.username %}
+                    {% if comment.username == request.user.username %}
                     <a href="{% url 'delete_comment' comment.id %}" class="btn btn-delete">Delete</a>
                     <a href="{% url 'update_comment' comment.id %}" class="btn btn-edit">Update</a>
                     {% endif %}
@@ -92,6 +98,7 @@
 
                 {% if user.is_authenticated %}
 
+                <!-- Comments -->
                 <h3>Leave a comment:</h3>
                 <p>Commented as: {{ user.username }}</p>
                 <form id="commentForm" method="POST" style="margin-top: 1.3em;">
@@ -100,14 +107,14 @@
                     <button id="submitButton" type="submit" class="btn btn-signup btn-lg">Submit</button>
                 </form>
                 {% else %}
-                <h3>Log in to leave a comment.</h3>
-                {% endif %}
-                
+                <h4>Log in to leave a comment.</h4>
+                {% endif %}                
             </div>
         </div>
     </div>
 </div>
 
+<!-- Trigger JS to delete comments -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
