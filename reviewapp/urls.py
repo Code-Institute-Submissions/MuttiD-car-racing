@@ -8,7 +8,7 @@ urlpatterns = [
     path('like/<slug:slug>', views.review_like, name="review_like"),
     path('contact/', views.ContactView.as_view(), name="contact"),
     path('success/', views.success, name="success"),
-    path('update_comment/<int:comment_id>/', 
+    path('update_comment/<int:comment_id>/',
          views.update_comment, name="update_comment"),
     path('delete_comment/<int:comment_id>/',
          views.delete_comment, name="delete_comment")
