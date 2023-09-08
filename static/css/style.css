@@ -1,3 +1,4 @@
+/*-------- body style */
 body {
     background-color: #F9FAFC;
 }
@@ -126,7 +127,7 @@ body {
     border: none;
 }
 
-/*-------- video */
+/*-------- video style */
 
 video {
     width: 100%;
@@ -135,9 +136,9 @@ video {
   
 
 
-/*-------- overlay text on the mercedes image*/
+/*-------- overlay text on the video*/
 
-.welcome ul {
+.welcome p {
     background-color: #3e3e3cdb;
     position: absolute;
     top: 2%;
@@ -147,11 +148,13 @@ video {
     margin: 10px;
     padding: 10px;
     font-size: 35px;
+    min-height: 125px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.welcome li {
-    padding: 8px;
-}
+
 
 /*-------- pagination */
 
@@ -192,14 +195,14 @@ video {
 
 /*-------- media screens */
 
-@media screen and (max-width: 600px) {
-    welcome {
-      font-size: 18px;
+@media screen and (max-width: 800px) {
+    .welcome p {
+      font-size: 20px;
     }
   }
 
   @media screen and (max-width: 412px) {
-    welcome {
-      font-size: 10px;
+    .welcome p {
+      font-size: 14px;
     }
   }

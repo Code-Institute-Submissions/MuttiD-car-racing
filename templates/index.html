@@ -2,31 +2,29 @@
 
 {% block content %}
 
+<!-- Welcome message and video -->
 <div class="container ">
     <div class="row">
         <video width="1280" height="720" class="video" autoplay loop muted>
             <source src="https://res.cloudinary.com/dyvwocsbh/video/upload/v1694030386/car/racing_car_on_track_qowoih.mp4" type="video/mp4">
         </video>        
-        <div class=" col-4 card-img-overlay">
+        <div class=" col-6 card-img-overlay">
             <div class="welcome text-light">
-                <ul>
-                    <li>What</li>
-                    <li>is</li>
-                    <li>your</li>
-                    <li>passion ?</li>
-                </ul>                
+                <p>
+                    What is your passion ?
+                </p>                               
             </div>
         </div>        
     </div>
 </div>
 
-    <!-- Review Entries Here -->
+<!-- Review Entries Here -->
 <div class="container">
     <div class="row">
         
         <div class="col-10 mt-2">
             <div class="row">
-                <h2>Racing Car List</h2>
+                <h2>Racing Car Review List - Pick your favourite!</h2>
                 {% for review in carreviewmodel_list %}
                 <div class="col-md-6">                    
                     <div class="card mb-4">

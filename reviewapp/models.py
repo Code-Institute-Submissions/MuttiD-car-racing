@@ -66,6 +66,9 @@ class CarCommentModel(models.Model):
 
 
 class Contact(models.Model):
+    """
+    A class to feature the contact page
+    """
     name = models.CharField(max_length=100)
     email = models.EmailField()
     subject = models.CharField(max_length=200)
