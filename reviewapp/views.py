@@ -74,7 +74,7 @@ def update_comment(request, comment_id):
     update_form = CommentForm(request.POST or None, instance=update_c)
 
     if update_form.is_valid():
-        if update_c.username.author != request.user:
+        if update_c.username != request.user.username:
             messages.success(
                 request, "You do not have permission to update this comment")
             return redirect("all_reviews")
@@ -95,7 +95,7 @@ def delete_comment(request, comment_id):
     context = {'delete_c': delete_c}
 
     if request.method == 'POST':
-        if delete_c.username.author != request.user:
+        if delete_c.username != request.user.username:
             messages.success(
                 request, "You do not have permission to delete this comment")
             return redirect("all_reviews")
